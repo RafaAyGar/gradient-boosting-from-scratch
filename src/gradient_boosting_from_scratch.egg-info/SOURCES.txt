@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+src/gradient_boosting_from_scratch.egg-info/PKG-INFO
+src/gradient_boosting_from_scratch.egg-info/SOURCES.txt
+src/gradient_boosting_from_scratch.egg-info/dependency_links.txt
+src/gradient_boosting_from_scratch.egg-info/requires.txt
+src/gradient_boosting_from_scratch.egg-info/top_level.txt
