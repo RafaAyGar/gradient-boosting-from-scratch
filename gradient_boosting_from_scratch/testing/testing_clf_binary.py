@@ -1,21 +1,21 @@
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier as GBC_from_sklearn
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 
-from gradient_boosting_from_scratch._losses import LossFunctionMultinomialDeviance
-from gradient_boosting_from_scratch.classifier_multiclass import (
-    GradientBoostingMulticlassClassifier as GBC_from_scratch,
+from gradient_boosting_from_scratch._losses import LossFunctionBinomialDeviance
+from gradient_boosting_from_scratch.classifier_binary import (
+    GradientBoostingBinaryClassifier as GBC_from_scratch,
 )
 
-N_SEEDS = 25
+N_SEEDS = 20
 
 ### Prepare the data
 ##
 #
 data = pd.read_csv(
-    "gradient_boosting_from_scratch/testing/data_synthetic_classification.csv"
+    "gradient_boosting_from_scratch/testing/data_synthetic_classification_binary.csv"
 )
 X = data.iloc[:, :-1]
 y = data.iloc[:, -1]
@@ -32,7 +32,7 @@ for seed in seeds:
     ##
     #
     gb_scratch = GBC_from_scratch(
-        loss=LossFunctionMultinomialDeviance(),
+        loss=LossFunctionBinomialDeviance(),
         n_stages=50,
         max_depth=4,
         learning_rate=0.1,
@@ -51,15 +51,19 @@ for seed in seeds:
     )
     gb_sklearn.fit(X_train, y_train)
 
-    skl_y_train_preds.append(mean_absolute_error(y_train, gb_sklearn.predict(X_train)))
-    skl_y_test_preds.append(mean_absolute_error(y_test, gb_sklearn.predict(X_test)))
-    scr_y_train_preds.append(mean_absolute_error(y_train, gb_scratch.predict(X_train)))
-    scr_y_test_preds.append(mean_absolute_error(y_test, gb_scratch.predict(X_test)))
+    skl_y_train_preds.append(
+        roc_auc_score(y_train, gb_sklearn.predict_proba(X_train)[:, 1])
+    )
+    skl_y_test_preds.append(
+        roc_auc_score(y_test, gb_sklearn.predict_proba(X_test)[:, 1])
+    )
+    scr_y_train_preds.append(roc_auc_score(y_train, gb_scratch.predict_proba(X_train)))
+    scr_y_test_preds.append(roc_auc_score(y_test, gb_scratch.predict_proba(X_test)))
 
 print("")
-print("Average sklearn train MAE:", np.mean(skl_y_train_preds))
-print("Average scratch train MAE:", np.mean(scr_y_train_preds))
+print("Average sklearn train AUC:", np.mean(skl_y_train_preds))
+print("Average scratch train AUC:", np.mean(scr_y_train_preds))
 print("··················")
-print("Average sklearn test MAE:", np.mean(skl_y_test_preds))
-print("Average scratch test MAE:", np.mean(scr_y_test_preds))
+print("Average sklearn test AUC:", np.mean(skl_y_test_preds))
+print("Average scratch test AUC:", np.mean(scr_y_test_preds))
 print("")

@@ -7,7 +7,7 @@ from gradient_boosting_from_scratch.base import GradientBoostingRegressor as GBR
 from gradient_boosting_from_scratch.base import LossFunctionMSE
 
 data = pd.read_csv(
-    "gradient_boosting_from_scratch/testing/testing_data_reg.csv", sep=" ", header=None
+    "gradient_boosting_from_scratch/testing/data_synthetic_regression.csv"
 )
 X = data.iloc[:, :-1]
 y = data.iloc[:, -1]
