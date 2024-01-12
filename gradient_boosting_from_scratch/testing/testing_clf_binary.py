@@ -5,11 +5,10 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 
 from gradient_boosting_from_scratch._losses import LossFunctionBinomialDeviance
-from gradient_boosting_from_scratch.classifier_binary import (
-    GradientBoostingBinaryClassifier as GBC_from_scratch,
-)
+from gradient_boosting_from_scratch.classifier_binary import \
+    GradientBoostingBinaryClassifier as GBC_from_scratch
 
-N_SEEDS = 20
+N_SEEDS = 10
 
 ### Prepare the data
 ##

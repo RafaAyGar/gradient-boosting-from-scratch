@@ -4,10 +4,10 @@ from sklearn.ensemble import GradientBoostingClassifier as GBC_from_sklearn
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
-from gradient_boosting_from_scratch._losses import LossFunctionMultinomialDeviance
-from gradient_boosting_from_scratch.classifier_multiclass import (
-    GradientBoostingMulticlassClassifier as GBC_from_scratch,
-)
+from gradient_boosting_from_scratch._losses import \
+    LossFunctionMultinomialDeviance
+from gradient_boosting_from_scratch.classifier_multiclass import \
+    GradientBoostingMulticlassClassifier as GBC_from_scratch
 
 N_SEEDS = 25
 

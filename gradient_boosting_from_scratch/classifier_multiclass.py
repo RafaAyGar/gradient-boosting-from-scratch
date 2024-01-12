@@ -49,7 +49,6 @@ class GradientBoostingMulticlassClassifier(BaseGradientBoosting):
                 self._update_terminal_regions(
                     terminal_regions,
                     estimator,
-                    X,
                     y_one_hot[:, k],
                     residuals_m_k,
                     base_predictions[:, k],
@@ -79,7 +78,7 @@ class GradientBoostingMulticlassClassifier(BaseGradientBoosting):
         return predictions
 
     def _update_terminal_regions(
-        self, terminal_regions, estimator, X, y, residuals, base_predictions
+        self, terminal_regions, estimator, y, residuals, base_predictions
     ):
         for leaf in np.unique(terminal_regions):
             mask = terminal_regions == leaf

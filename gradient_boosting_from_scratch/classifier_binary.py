@@ -14,9 +14,8 @@ class GradientBoostingBinaryClassifier(BaseGradientBoosting):
         base_predictions = self.base_estimator.predict_proba(X)[:, 1]
         base_predictions = np.log(base_predictions / (1 - base_predictions))
 
-        self.estimators_ = []
-
-        for _ in range(self.n_stages):
+        self.estimators_ = np.empty(self.n_stages, dtype=DecisionTreeRegressor)
+        for m in range(self.n_stages):
             residuals_m = self.loss.negative_gradient(y, base_predictions)
 
             estimator = DecisionTreeRegressor(
@@ -36,10 +35,10 @@ class GradientBoostingBinaryClassifier(BaseGradientBoosting):
 
             terminal_regions = estimator.apply(X)
             self._update_terminal_regions(
-                terminal_regions, estimator, X, y, residuals_m, base_predictions
+                terminal_regions, estimator, y, residuals_m, base_predictions
             )
 
-            self.estimators_.append(estimator)
+            self.estimators_[m] = estimator
             base_predictions += self.learning_rate * estimator.predict(X)
 
         return self
@@ -59,7 +58,7 @@ class GradientBoostingBinaryClassifier(BaseGradientBoosting):
         return predictions
 
     def _update_terminal_regions(
-        self, terminal_regions, estimator, X, y, residuals, base_predictions
+        self, terminal_regions, estimator, y, residuals, base_predictions
     ):
         for leaf in np.unique(terminal_regions):
             mask = terminal_regions == leaf
