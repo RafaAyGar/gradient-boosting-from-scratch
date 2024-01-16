@@ -4,12 +4,12 @@ from sklearn.ensemble import GradientBoostingClassifier as GBC_from_sklearn
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
-from gradient_boosting_from_scratch._losses import \
-    LossFunctionMultinomialDeviance
-from gradient_boosting_from_scratch.classifier_multiclass import \
-    GradientBoostingMulticlassClassifier as GBC_from_scratch
+from gradient_boosting_from_scratch._losses import LossFunctionMultinomialDeviance
+from gradient_boosting_from_scratch.classifier_multiclass import (
+    GradientBoostingMulticlassClassifier as GBC_from_scratch,
+)
 
-N_SEEDS = 25
+N_SEEDS = 5
 
 ### Prepare the data
 ##
@@ -33,9 +33,9 @@ for seed in seeds:
     #
     gb_scratch = GBC_from_scratch(
         loss=LossFunctionMultinomialDeviance(),
-        n_stages=50,
+        n_stages=100,
         max_depth=4,
-        learning_rate=0.1,
+        learning_rate=0.01,
         random_state=seed,
     )
     gb_scratch.fit(X_train, y_train)
@@ -44,9 +44,9 @@ for seed in seeds:
     ##
     #
     gb_sklearn = GBC_from_sklearn(
-        n_estimators=50,
+        n_estimators=100,
         max_depth=4,
-        learning_rate=0.1,
+        learning_rate=0.01,
         random_state=seed,
     )
     gb_sklearn.fit(X_train, y_train)

@@ -5,10 +5,11 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
 from gradient_boosting_from_scratch._losses import LossFunctionMSE
-from gradient_boosting_from_scratch.regressor import \
-    GradientBoostingRegressor as GBR_from_scratch
+from gradient_boosting_from_scratch.regressor import (
+    GradientBoostingRegressor as GBR_from_scratch,
+)
 
-N_SEEDS = 20
+N_SEEDS = 5
 
 ### Prepare the data
 ##
@@ -32,9 +33,9 @@ for seed in seeds:
     #
     gb_scratch = GBR_from_scratch(
         loss=LossFunctionMSE(),
-        n_stages=50,
+        n_stages=100,
         max_depth=4,
-        learning_rate=0.1,
+        learning_rate=0.01,
         random_state=seed,
     )
     gb_scratch.fit(X_train, y_train)
@@ -43,9 +44,9 @@ for seed in seeds:
     ##
     #
     gb_sklearn = GBR_from_sklearn(
-        n_estimators=50,
+        n_estimators=100,
         max_depth=4,
-        learning_rate=0.1,
+        learning_rate=0.01,
         random_state=seed,
     )
     gb_sklearn.fit(X_train, y_train)
