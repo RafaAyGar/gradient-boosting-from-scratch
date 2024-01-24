@@ -43,6 +43,16 @@ class LossFunctionMultinomialDeviance:
         probs = softmax(y_pred, axis=1)
         return y_k - probs[:, k]
 
+    # def negative_gradient(self, y_k, y_pred, k):
+    #     for y_k_i in y_k:
+    #         if y_k_i == 1:
+    #             cg = (
+    #                 math.exp(a) / (math.exp(a) + math.exp(b) + math.exp(c))
+    #                 - math.exp(a) ** 2 / (math.exp(a) + math.exp(b) + math.exp(c)) ** 2
+    #             )
+    #     # probs = softmax(y_pred, axis=1)
+    #     return y_k - probs[:, k]
+
     def update_terminal_region(self, tree, leaf, y, residuals, base_predictions, K):
         numerator = np.sum(residuals) * ((K - 1) / K)
         denominator = np.sum((y - residuals) * (1 - y + residuals))
